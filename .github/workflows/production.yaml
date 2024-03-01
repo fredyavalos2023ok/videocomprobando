@@ -1,3 +1,4 @@
+
 name: Deployment Pipeline
 
 on:
@@ -14,7 +15,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          node-version: 20
+          node-version: 16
       - name: Install dependencies
         run: npm install --no-audit --no-fund --no-optional
       - name: Lint
@@ -28,15 +29,26 @@ jobs:
         with:
           command: npm run test:e2e
           start: npm run start-test 
-          wait-on: http://localhost:5000
-      - name: Vercel Production Deployment
-        run: echo "Deploying to Vercel..."
-      - uses: actions/checkout@v2
+          wait-on: http://localhost:5000  
+
+  deploy_production:
+    name: Vercel Production Deployment
+    runs-on: ubuntu-22.04
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Install Vercel CLI
         run: npm install --global vercel
+
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts
+
+      - name: Deploy Project Artifacts 
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
