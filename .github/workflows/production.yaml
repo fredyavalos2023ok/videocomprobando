@@ -20,6 +20,8 @@ jobs:
         run: npm install --no-audit --no-fund --no-optional
       - name: Lint
         run: npm run eslint
+      - name: Test
+        run: npm test
 
   deploy_production:
     name: Vercel Production Deployment
