@@ -16,7 +16,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React Cambiando de nodejs16 a nodejs20 tercer intento intento</h1>
+      <h1>Vite + React después del bug ahora si de Nodejs16 a Nodejs20</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
